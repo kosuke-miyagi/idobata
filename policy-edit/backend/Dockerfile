@@ -45,7 +45,10 @@ ENV NODE_ENV=production
 
 # Copy the private key into the final image
 # IMPORTANT: Ensure the key exists at ./policy-edit/backend/secrets/github-key.pem during build
-COPY ./policy-edit/backend/secrets/github-key.pem /app/secrets/github-key.pem
+# [公開デプロイ用に停止 2026-06-15] ビルド時の鍵焼き込みを無効化（秘密鍵をGitに載せないため）。
+# 鍵は実行時に Coolify から /app/secrets/github-key.pem へマウントして渡す。
+# COPY ./policy-edit/backend/secrets/github-key.pem /app/secrets/github-key.pem
+RUN mkdir -p /app/secrets
 
 # Copy backend package.json (optional, if needed by CMD or runtime)
 COPY ./policy-edit/backend/package.json ./policy-edit/backend/package.json
