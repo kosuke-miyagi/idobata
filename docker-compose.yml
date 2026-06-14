@@ -1,5 +1,6 @@
 services:
   idea-backend:
+    profiles: ["extra"]  # [公開デプロイ用に停止 2026-06-15] 起動しない（定義は保持・profiles有効化で復活可）
     container_name: idea-backend-dev
     build:
       context: . # Change context to the root directory
@@ -112,6 +113,7 @@ services:
 
   # --- Unified Frontend ---
   frontend:
+    profiles: ["extra"]  # [公開デプロイ用に停止 2026-06-15] 起動しない（定義は保持・profiles有効化で復活可）
     container_name: frontend-dev
     image: node:20-slim
     working_dir: /app
@@ -131,6 +133,7 @@ services:
 
   # --- Database ---
   mongo:
+    profiles: ["extra"]  # [公開デプロイ用に停止 2026-06-15] 起動しない（定義は保持・profiles有効化で復活可）
     container_name: mongo-dev
     image: mongo:latest
     ports:
@@ -140,6 +143,7 @@ services:
 
   # --- Admin Panel ---
   admin:
+    profiles: ["extra"]  # [公開デプロイ用に停止 2026-06-15] 起動しない（定義は保持・profiles有効化で復活可）
     container_name: admin-dev
     image: node:20-alpine
     working_dir: /app
@@ -159,6 +163,7 @@ services:
 
   # --- Python Embedding Service ---
   python-service:
+    profiles: ["extra"]  # [公開デプロイ用に停止 2026-06-15] 起動しない（定義は保持・profiles有効化で復活可）
     container_name: idobata-python-service
     build:
       context: ./python-service
@@ -171,6 +176,7 @@ services:
       - chroma_data:/data/chroma # ChromaDB data persistence
 
   nginx:
+    profiles: ["extra"]  # [公開デプロイ用に停止 2026-06-15] 起動しない（Coolifyのproxyと80/443競合のため。定義は保持・復活可）
     container_name: nginx-prod
     image: nginx:latest
     ports:
