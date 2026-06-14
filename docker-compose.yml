@@ -80,6 +80,9 @@ services:
       context: . # Change context to the root directory
       dockerfile: ./policy-edit/backend/Dockerfile # Specify Dockerfile path relative to new context
       target: production # Build the production stage
+    volumes:
+      # [公開デプロイ用 2026-06-15] GitHub秘密鍵をホストから実行時マウント（Gitに載せないため）
+      - /data/idobata-secrets/github-key.pem:/app/secrets/github-key.pem:ro
     ports:
       - "3001:3001" # Expose backend API port
     env_file:
