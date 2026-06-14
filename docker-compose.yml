@@ -37,15 +37,18 @@ services:
   # --- policy-edit ---
   policy-frontend:
     container_name: policy-frontend-dev
-    image: node:20-alpine # Use a base image, Vite runs on host via volume mount
+    # [公開デプロイ用 2026-06-15] Coolifyではソースのbindマウントが動かないため build 方式に変更（旧設定はコメントで保持・可逆）
+    build:
+      context: ./policy-edit/frontend
+      dockerfile: Dockerfile
     working_dir: /app
-    volumes:
-      - ./policy-edit/frontend:/app
-      # Add node_modules volume
-      - /app/node_modules
+    # image: node:20-alpine # Use a base image, Vite runs on host via volume mount
+    # volumes:
+    #   - ./policy-edit/frontend:/app
+    #   - /app/node_modules
     ports:
       - "5174:5173" # Expose Vite dev server port (Host: 5174, Container: 5173)
-    command: sh -c "npm install && npm run dev -- --host 0.0.0.0" # Install deps if needed and run dev server
+    # command: sh -c "npm install && npm run dev -- --host 0.0.0.0" # build方式ではDockerfileのCMD(npm run dev)を使用
     env_file:
       - .env # Load environment variables from .env file
     environment:
