@@ -40,6 +40,12 @@ const openai = new OpenAI({
   apiKey: OPENROUTER_API_KEY,
 });
 
+// [公開デプロイ用 2026-06-16] 使用するLLMモデルを環境変数で切替可能に（未設定なら従来のGemini）。
+// OpenRouterのモデルID（例: anthropic/claude-sonnet-4 , openai/gpt-4o , google/gemini-2.5-flash）を
+// 環境変数 OPENROUTER_MODEL に設定すると切り替わる。
+const OPENROUTER_MODEL =
+  process.env.OPENROUTER_MODEL || "google/gemini-2.5-pro-preview-03-25";
+
 export class IdobataMcpService {
   constructor(private mcpClient: McpClient) {}
 
@@ -109,7 +115,7 @@ export class IdobataMcpService {
       const openaiTools = convertMcpToolsToOpenAI(tools);
 
       const response = await openai.chat.completions.create({
-        model: "google/gemini-2.5-pro-preview-03-25",
+        model: OPENROUTER_MODEL,
         messages: messages,
         tools: openaiTools.length > 0 ? openaiTools : undefined,
         tool_choice: openaiTools.length > 0 ? "auto" : undefined,
@@ -175,7 +181,7 @@ export class IdobataMcpService {
           }
 
           const followUpResponse = await openai.chat.completions.create({
-            model: "google/gemini-2.5-pro-preview-03-25",
+            model: OPENROUTER_MODEL,
             messages: messages,
             max_tokens: 50000,
           });
