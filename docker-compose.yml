@@ -57,6 +57,8 @@ services:
       # Map GITHUB_TARGET_* from .env to VITE_GITHUB_* for the frontend
       - VITE_GITHUB_REPO_OWNER=${GITHUB_TARGET_OWNER}
       - VITE_GITHUB_REPO_NAME=${GITHUB_TARGET_REPO}
+      # 表示用の読み込みでレート制限(未認証60回/時)に当たらないための個人トークン
+      - VITE_GITHUB_TOKEN=${GITHUB_READ_TOKEN}
       - VITE_POLICY_FRONTEND_ALLOWED_HOSTS=${VITE_POLICY_FRONTEND_ALLOWED_HOSTS}
       # GitHub Mock Client Configuration
       - VITE_USE_MOCK_GITHUB_CLIENT=${VITE_USE_MOCK_GITHUB_CLIENT}
